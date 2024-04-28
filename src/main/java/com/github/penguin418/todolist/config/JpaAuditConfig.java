@@ -14,7 +14,8 @@ import java.util.Optional;
 public class JpaAuditConfig {
     @Bean
     public AuditorAware<Long> auditorProvider() {
-        return ()-> Optional.of(SecurityContextHolder.getContext().getAuthentication())
+        return ()-> Optional.of(SecurityContextHolder.getContext())
+                .map(context->context.getAuthentication())
                 .filter(Authentication::isAuthenticated)
                 .map(Authentication::getPrincipal)
                 .filter(principal -> principal instanceof TodoUser)

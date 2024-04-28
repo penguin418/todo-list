@@ -31,6 +31,7 @@ public class TodoService {
 
     @Transactional
     public TodoDto create(TodoCreateRequest todoCreateRequest) {
+        if (todoCreateRequest.getTodoContent() == null) throw new IllegalArgumentException("Content is null");
         TodoUserEntity userEntity = todoUserRepository.findById(todoCreateRequest.getUserId()).orElseThrow(()->new IllegalArgumentException("User not found"));
 
         TodoEntity entity = todoMapper.toEntity(todoCreateRequest);

@@ -5,6 +5,7 @@ import com.github.penguin418.todolist.model.request.TodoCreateRequest;
 import com.github.penguin418.todolist.model.request.TodoStatePatchRequest;
 import com.github.penguin418.todolist.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,12 @@ public class TodoController {
 
     @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<TodoDto> createTodo(@RequestBody TodoCreateRequest todoCreateRequest){
+    public ResponseEntity<TodoDto> createTodo(@RequestBody @Valid TodoCreateRequest todoCreateRequest){
         return ResponseEntity.ok(todoService.create(todoCreateRequest));
     }
 
     @RequestMapping(path = "", method = RequestMethod.PATCH)
-    public ResponseEntity<TodoDto> patchState(@RequestBody TodoStatePatchRequest todoStatePatchRequest){
+    public ResponseEntity<TodoDto> patchState(@RequestBody @Valid TodoStatePatchRequest todoStatePatchRequest){
         return ResponseEntity.ok(todoService.patchState(todoStatePatchRequest));
     }
 

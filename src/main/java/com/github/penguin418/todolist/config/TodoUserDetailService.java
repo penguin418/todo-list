@@ -8,12 +8,14 @@ import com.github.penguin418.todolist.model.request.JoinRequest;
 import com.github.penguin418.todolist.repository.TodoRepository;
 import com.github.penguin418.todolist.repository.TodoUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @Component
 @RequiredArgsConstructor
@@ -34,7 +36,7 @@ public class TodoUserDetailService implements UserDetailsService {
     @Transactional
     public TodoUserDto createAccount(JoinRequest joinRequest) {
         if (todoUserRepository.findByUsername(joinRequest.getUsername()).isPresent()) {
-            throw new IllegalArgumentException("Duplicated username");
+            throw new IllegalStateException("Duplicated username");
         }
 
         TodoUserEntity todoUser = new TodoUserEntity(
@@ -54,7 +56,7 @@ public class TodoUserDetailService implements UserDetailsService {
     @Transactional
     public void deleteAccount(TodoUser todoUser, WithdrawalRequest withdrawalRequest) {
         if (!passwordEncoder.matches(withdrawalRequest.getPassword(), todoUser.getPassword())) {
-            throw new IllegalArgumentException("Password not matched");
+            throw new BadCredentialsException("Password not matched");
         }
         todoRepository.deleteByTodoUserId(todoUser.getUserId());
         todoUserRepository.deleteById(todoUser.getUserId());

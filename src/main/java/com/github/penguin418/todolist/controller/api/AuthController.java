@@ -2,11 +2,12 @@ package com.github.penguin418.todolist.controller.api;
 
 import com.github.penguin418.todolist.config.TodoUser;
 import com.github.penguin418.todolist.config.TodoUserDetailService;
-import com.github.penguin418.todolist.model.request.WithdrawalRequest;
 import com.github.penguin418.todolist.model.dto.TodoUserDto;
 import com.github.penguin418.todolist.model.request.JoinRequest;
+import com.github.penguin418.todolist.model.request.WithdrawalRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class AuthController {
 
     @RequestMapping(path = "/join", method = RequestMethod.POST)
     @ResponseStatus(code = HttpStatus.CREATED)
-    public ResponseEntity<TodoUserDto> signUp(@RequestBody JoinRequest joinRequest){
+    public ResponseEntity<TodoUserDto> signUp(@RequestBody @Valid JoinRequest joinRequest){
         return ResponseEntity.ok(todoUserDetailService.createAccount(joinRequest));
     }
     @RequestMapping(value = "/me", method = RequestMethod.GET)
@@ -34,7 +35,7 @@ public class AuthController {
     @ResponseStatus(code = HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> delete(
             HttpServletRequest request, HttpServletResponse response, Authentication authentication,
-            @AuthenticationPrincipal TodoUser todoUser, @RequestBody WithdrawalRequest withdrawalRequest){
+            @AuthenticationPrincipal TodoUser todoUser, @RequestBody @Valid WithdrawalRequest withdrawalRequest){
         todoUserDetailService.deleteAccount(todoUser, withdrawalRequest);
         new SecurityContextLogoutHandler().logout(request, response, authentication);
         return ResponseEntity.ok().build();
