@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        <li th:if="${isLogin}"> 로그인 되어있음 </li>
+        <li th:unless="${isLogin}"> <a href="/auth/login">로그인 하기</a> </li>
+        <li><a href="/swagger-ui/index.html">스웨거</a></li>
+    </ul>
+</body>
+</html>
