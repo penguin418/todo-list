@@ -29,18 +29,18 @@ data class TodoUser(
     }
 
     override fun isAccountNonExpired(): Boolean {
-        return isAccountNonExpired;
+        return accountNonExpired;
     }
 
     override fun isAccountNonLocked(): Boolean {
-        return isAccountNonLocked;
+        return accountNonLocked;
     }
 
     override fun isCredentialsNonExpired(): Boolean {
-        return isCredentialsNonExpired;
+        return credentialsNonExpired;
     }
 
     override fun isEnabled(): Boolean {
-        return isEnabled;
+        return enabled;
     }
 }
