@@ -25,7 +25,7 @@ open class TodoUserDetailService(
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String): UserDetails {
         return todoUserRepository.findByUsername(username)
-                .map { entity: TodoUserEntity? -> todoUserMapper.toAuthentication(entity) }
+                .map { entity: TodoUserEntity? -> todoUserMapper.toAuthentication(entity)!! }
                 .orElseThrow { UsernameNotFoundException(username) }
     }
 
@@ -39,11 +39,11 @@ open class TodoUserDetailService(
                 joinRequest.nickname
         )
         todoUserRepository.save(todoUser)
-        return todoUserMapper.toDto(todoUser)
+        return todoUserMapper.toDto(todoUser)!!
     }
 
     fun getTodoUserDto(todoUser: TodoUser?): TodoUserDto {
-        return todoUserMapper.toDto(todoUser)
+        return todoUserMapper.toDto(todoUser)!!
     }
 
     @Transactional
