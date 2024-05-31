@@ -57,6 +57,7 @@
 | TODO List | TODO List 작성   | TODO List 작성 | 정상작성, 내용이 없는 TODO 작성 시 실패            |
 |           | TODO List 상태변경 | TODO 상태 변경   | 정상변경, 잘못된 변경 시 실패                    |
 
+# backlog 1.1 - kotlin 으로 변환 [ ]
 
 # backlog 2 - 주요 진행에 따른 시스템 로깅 [ ]
 | 구분 | 요구사항      | 기능       | 설명                          | 입력 데이터                                        | 출력 데이터 |
