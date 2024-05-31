@@ -35,15 +35,15 @@ public class TodoUserDetailService implements UserDetailsService {
 
     @Transactional
     public TodoUserDto createAccount(JoinRequest joinRequest) {
-        if (todoUserRepository.findByUsername(joinRequest.getUsername()).isPresent()) {
+        if (todoUserRepository.findByUsername(joinRequest.username).isPresent()) {
             throw new IllegalStateException("Duplicated username");
         }
 
         TodoUserEntity todoUser = new TodoUserEntity(
                 null,
-                joinRequest.getUsername(),
-                passwordEncoder.encode(joinRequest.getPassword()),
-                joinRequest.getNickname()
+                joinRequest.username,
+                passwordEncoder.encode(joinRequest.password),
+                joinRequest.nickname
         );
         todoUserRepository.save(todoUser);
         return todoUserMapper.toDto(todoUser);
@@ -55,7 +55,7 @@ public class TodoUserDetailService implements UserDetailsService {
 
     @Transactional
     public void deleteAccount(TodoUser todoUser, WithdrawalRequest withdrawalRequest) {
-        if (!passwordEncoder.matches(withdrawalRequest.getPassword(), todoUser.getPassword())) {
+        if (!passwordEncoder.matches(withdrawalRequest.password, todoUser.getPassword())) {
             throw new BadCredentialsException("Password not matched");
         }
         todoRepository.deleteByTodoUserId(todoUser.getUserId());

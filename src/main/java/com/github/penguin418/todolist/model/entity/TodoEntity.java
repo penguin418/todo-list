@@ -30,7 +30,7 @@ public class TodoEntity extends BaseEntity {
     private TodoState todoState;
 
     public void setTodoState(TodoState newState){
-        if (!TodoState.isValidTransition(this.todoState, newState)){
+        if (!TodoState.Companion.isValidTransition(this.todoState, newState)){
             throw new IllegalArgumentException("Invalid state transition");
         }
         this.todoState = newState;

@@ -31,8 +31,8 @@ public class TodoService {
 
     @Transactional
     public TodoDto create(TodoCreateRequest todoCreateRequest) {
-        if (todoCreateRequest.getTodoContent() == null) throw new IllegalArgumentException("Content is null");
-        TodoUserEntity userEntity = todoUserRepository.findById(todoCreateRequest.getUserId()).orElseThrow(()->new IllegalArgumentException("User not found"));
+        if (todoCreateRequest.todoContent == null) throw new IllegalArgumentException("Content is null");
+        TodoUserEntity userEntity = todoUserRepository.findById(todoCreateRequest.userId).orElseThrow(()->new IllegalArgumentException("User not found"));
 
         TodoEntity entity = todoMapper.toEntity(todoCreateRequest);
         entity.setTodoState(TodoState.TODO);
@@ -43,11 +43,11 @@ public class TodoService {
 
     @Transactional
     public TodoDto patchState(TodoStatePatchRequest todoStatePatchRequest) {
-        TodoEntity entity = todoRepository.findById(todoStatePatchRequest.getTodoId()).orElseThrow(()->new IllegalArgumentException("Todo not found"));
-        if (!TodoState.isValidTransition(entity.getTodoState(), todoStatePatchRequest.getTodoState())) {
+        TodoEntity entity = todoRepository.findById(todoStatePatchRequest.todoId).orElseThrow(()->new IllegalArgumentException("Todo not found"));
+        if (!TodoState.Companion.isValidTransition(entity.getTodoState(), todoStatePatchRequest.todoState)) {
             throw new IllegalArgumentException("Invalid state transition");
         }
-        entity.setTodoState(todoStatePatchRequest.getTodoState());
+        entity.setTodoState(todoStatePatchRequest.todoState);
         return todoMapper.toDto(todoRepository.save(entity));
     }
 
